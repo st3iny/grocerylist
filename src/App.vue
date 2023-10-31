@@ -126,7 +126,7 @@ export default {
 		},
 		async newGroceryList() {
 			try {
-				const { data } = await axios.post(generateUrl('/apps/grocerylist/api/lists'), { title: '' })
+				const { data } = await axios.post(generateUrl('/apps/grocerylist/api/lists'), { title: t('grocerylist', 'New list') })
 				this.groceryLists.push(data)
 			} catch (e) {
 				console.error(e)

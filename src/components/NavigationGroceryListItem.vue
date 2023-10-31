@@ -3,8 +3,7 @@
 		:icon="icon"
 		:editable="true"
 		:edit-label="rename"
-		:to="{ name: 'list', params: { id: groceryList.id.toString() } }"
-		:class="{active: currentGroceryListId === groceryList.id}"
+		:to="{ name: 'list', params: { listId: groceryList.id.toString() } }"
 		@click="openGroceryList(groceryList)"
 		@update:name="onRename">
 		<template #actions>
@@ -39,10 +38,6 @@ export default {
 			type: Object,
 			required: true,
 		},
-		currentGroceryListId: {
-			type: Number,
-			required: true,
-		},
 	},
 	emits: ['delete'],
 	data() {
@@ -58,6 +53,9 @@ export default {
 		title() {
 			return this.groceryList.title
 		},
+		currentGroceryListId() {
+			return parseInt(this.$route.params.listId)
+		},
 	},
 	methods: {
 		async onRename(newTitle) {
@@ -69,7 +67,6 @@ export default {
 			try {
 				if (this.groceryList.id === -1) {
 					const response = await axios.post(generateUrl('/apps/grocerylist/api/lists'), this.groceryList)
-					this.currentGroceryListId = response.data.id
 				} else {
 					await axios.post(generateUrl(`/apps/grocerylist/api/lists/${this.groceryList.id}`), this.groceryList)
 				}

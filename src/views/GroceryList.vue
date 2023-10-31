@@ -13,7 +13,8 @@
 				placeholder="Item…"
 				:disabled="updating"
 				style="width: 30%"
-				@keyup.enter="onSaveItem()">
+				@keyup.enter="onSaveItem()"
+				@input="toggleSaveButton()">
 			<NcSelect id="dropdown"
 				v-model="newItemCategory"
 				:options="allCategories"
@@ -22,16 +23,22 @@
 				:close-on-outside-click="true"
 				style="width: 20%"
 				@updateOption="updateNewItemCategory" />
-			<NcButton icon="icon-add"
-				:disabled="!canSave"
+			<NcButton :disabled="!canSave"
 				style="display:inline-block;"
-				@click="onSaveItem()" />
+				@click="onSaveItem()">
+				<template #icon>
+					<Plus :size="20" />
+				</template>
+			</NcButton>
 			<NcButton v-if="showDeleteButton"
 				id="deleteButton"
-				icon="icon-delete"
 				:disabled="!canSave"
 				style="display:inline-block;"
-				@click="deleteItem()" />
+				@click="deleteItem()">
+				<template #icon>
+					<Delete :size="20" />
+				</template>
+			</NcButton>
 
 			<br>
 			<span v-for="category in filteredCategories" :key="category.id">
@@ -77,6 +84,8 @@ import {
 	NcButton,
 } from '@nextcloud/vue'
 import AlarmSnooze from 'vue-material-design-icons/AlarmSnooze.vue'
+import Plus from 'vue-material-design-icons/Plus.vue'
+import Delete from 'vue-material-design-icons/Delete.vue'
 
 export default {
 	name: 'GroceryList',
@@ -86,6 +95,8 @@ export default {
 		NcSelect,
 		NcButton,
 		AlarmSnooze,
+		Plus,
+		Delete,
 	},
 
 	props: {
@@ -126,7 +137,7 @@ export default {
 		},
 		filteredCategories() {
 			if (this.categories == null) {
-				return
+				return []
 			}
 
 			return this.categories.filter(category => {
@@ -141,7 +152,7 @@ export default {
 		},
 		filteredItems() {
 			if (this.items == null) {
-				return
+				return []
 			}
 
 			return this.items.filter(item => {
@@ -154,23 +165,17 @@ export default {
 		},
 	},
 	watch: {
-		$route(to, from) {
-			if (to.name !== from.name || to.params.listId !== from.params.listId) {
-				console.warn('Route: ' + to.params.listId)
-				this.listId = to.params.listId
-				this.loadGroceryList(this.listId)
-				this.loadCategories(this.listId)
-				this.loadAllCategories(this.listId)
-				this.loadItems(this.listId)
-			}
+		listId: {
+			immediate: true,
+			async handler() {
+				await Promise.all([
+					this.loadGroceryList(this.listId),
+					this.loadCategories(this.listId),
+					this.loadAllCategories(this.listId),
+					this.loadItems(this.listId),
+				])
+			},
 		},
-	},
-	async mounted() {
-		console.warn('Mounted GroceryList ' + this.listId)
-		await this.loadGroceryList(this.listId)
-		await this.loadCategories(this.listId)
-		await this.loadAllCategories(this.listId)
-		await this.loadItems(this.listId)
 	},
 	methods: {
 		toggleSaveButton() {
@@ -335,6 +340,8 @@ export default {
 
 				this.newItemName = ''
 				this.newItemQuantity = ''
+
+				this.toggleSaveButton()
 			} catch (e) {
 				console.error(e)
 				showError(t('grocerylist', 'Could not add item'))
