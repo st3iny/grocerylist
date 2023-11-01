@@ -29,7 +29,8 @@
 					style="display:inline-block;"
 					@click="onSaveItem()">
 					<template #icon>
-						<Plus :size="20" />
+						<Check v-if="showDeleteButton" :size="20" />
+						<Plus v-else :size="20" />
 					</template>
 				</NcButton>
 				<NcButton v-if="showDeleteButton"
@@ -88,6 +89,7 @@ import {
 } from '@nextcloud/vue'
 import AlarmSnooze from 'vue-material-design-icons/AlarmSnooze.vue'
 import Plus from 'vue-material-design-icons/Plus.vue'
+import Check from 'vue-material-design-icons/Check.vue'
 import Delete from 'vue-material-design-icons/Delete.vue'
 
 export default {
@@ -99,6 +101,7 @@ export default {
 		NcButton,
 		AlarmSnooze,
 		Plus,
+		Check,
 		Delete,
 	},
 
