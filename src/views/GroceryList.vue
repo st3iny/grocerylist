@@ -1,44 +1,47 @@
 <template>
 	<div class="page-wrapper">
 		<h1>{{ groceryList?.title ?? t('grocerylist', 'Grocery list') }}</h1>
-		<div>
+		<div class="grocery-list">
 			<NcCheckboxRadioSwitch :checked="!!groceryList?.showOnlyUnchecked" type="switch" @update:checked="toggleVisibility">
 				{{ t('grocerylist', 'Show only unchecked') }}
 			</NcCheckboxRadioSwitch>
-			<input v-model="newItemQuantity"
-				placeholder="Quantity…"
-				:disabled="updating"
-				style="width: 20%">
-			<input v-model="newItemName"
-				placeholder="Item…"
-				:disabled="updating"
-				style="width: 30%"
-				@keyup.enter="onSaveItem()"
-				@input="toggleSaveButton()">
-			<NcSelect id="dropdown"
-				v-model="newItemCategory"
-				:options="allCategories"
-				label="name"
-				:value="object"
-				:close-on-outside-click="true"
-				style="width: 20%"
-				@updateOption="updateNewItemCategory" />
-			<NcButton :disabled="!canSave"
-				style="display:inline-block;"
-				@click="onSaveItem()">
-				<template #icon>
-					<Plus :size="20" />
-				</template>
-			</NcButton>
-			<NcButton v-if="showDeleteButton"
-				id="deleteButton"
-				:disabled="!canSave"
-				style="display:inline-block;"
-				@click="deleteItem()">
-				<template #icon>
-					<Delete :size="20" />
-				</template>
-			</NcButton>
+
+			<div class="grocery-list__item-form">
+				<input v-model="newItemQuantity"
+					placeholder="Quantity…"
+					:disabled="updating"
+					style="width: 20%">
+				<input v-model="newItemName"
+					placeholder="Item…"
+					:disabled="updating"
+					style="width: 30%"
+					@keyup.enter="onSaveItem()"
+					@input="toggleSaveButton()">
+				<NcSelect id="dropdown"
+					v-model="newItemCategory"
+					:options="allCategories"
+					label="name"
+					:value="object"
+					:close-on-outside-click="true"
+					style="width: 20%"
+					@updateOption="updateNewItemCategory" />
+				<NcButton :disabled="!canSave"
+					style="display:inline-block;"
+					@click="onSaveItem()">
+					<template #icon>
+						<Plus :size="20" />
+					</template>
+				</NcButton>
+				<NcButton v-if="showDeleteButton"
+					id="deleteButton"
+					:disabled="!canSave"
+					style="display:inline-block;"
+					@click="deleteItem()">
+					<template #icon>
+						<Delete :size="20" />
+					</template>
+				</NcButton>
+			</div>
 
 			<br>
 			<span v-for="category in filteredCategories" :key="category.id">
@@ -413,5 +416,18 @@ h1 {
 	text-align: center;
 	// to align with the toggle we need 44px (the toggle) - 30px (h2 line-height) / 2 + padding => 7px + padding
 	margin-block: calc(7px + var(--app-navigation-padding)) 12px;
+}
+
+.grocery-list {
+	&__item-form {
+		display: flex;
+		align-items: center;
+		gap: var(--default-grid-baseline);
+
+		> input {
+			height: 47.2px !important;
+			margin: 0;
+		}
+	}
 }
 </style>
