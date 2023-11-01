@@ -49,28 +49,27 @@
 				<h2 style="font-size: larger; text-transform: uppercase;">
 					{{ category.name }}
 				</h2>
-				<ul>
+				<ul class="grocery-list__item-list">
 					<li v-for="item in filteredItems"
-						v-if="item.category === category.id">
-						<div>
-							<NcButton aria-label="Snooze"
-								type="tertiary"
-								style="display:inline-block;"
-								@click="hideItem(item)">
-								<template #icon>
-									<AlarmSnooze :size="20" />
-								</template>
-							</NcButton>
-							<NcCheckboxRadioSwitch :checked="item.checked === true"
-								style="display:inline-block;"
-								@update:checked="checkItem(item)" />
-							<span @click="editItem(item)">
-								<span v-if="item.quantity !== ''">
-									{{ item.quantity }}
-								</span>
-								{{ item.name }}
+						v-if="item.category === category.id"
+						class="grocery-list__item-list__item">
+						<NcButton aria-label="Snooze"
+							type="tertiary"
+							style="display:inline-block;"
+							@click="hideItem(item)">
+							<template #icon>
+								<AlarmSnooze :size="20" />
+							</template>
+						</NcButton>
+						<NcCheckboxRadioSwitch :checked="item.checked === true"
+							style="display:inline-block;"
+							@update:checked="checkItem(item)" />
+						<span @click="editItem(item)">
+							<span v-if="item.quantity !== ''">
+								{{ item.quantity }}
 							</span>
-						</div>
+							{{ item.name }}
+						</span>
 					</li>
 				</ul>
 			</span>
@@ -430,6 +429,13 @@ h1 {
 		> input {
 			height: 47.2px !important;
 			margin: 0;
+		}
+	}
+
+	&__item-list {
+		&__item {
+			display: flex;
+			align-items: center;
 		}
 	}
 }
