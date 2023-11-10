@@ -17,7 +17,7 @@ class ShareeGroceryListMapper extends QBMapper {
 		$this->userId = $userId;
 	}
 
-	public function find(int $id) : Sharee {
+	public function find(int $id) : array {
 		$qb = $this->db->getQueryBuilder();
 
 		$qb->select('*')
@@ -25,7 +25,7 @@ class ShareeGroceryListMapper extends QBMapper {
 			->where($qb->expr()->eq('list', $qb->createNamedParameter($id)))
 			->andWhere($qb->expr()->eq('user_id', $qb->createNamedParameter($this->userId)));
 
-		return $this->findEntities($qb)[0];
+		return $this->findEntities($qb);
 	}
 
 	public function findAll(): array {
