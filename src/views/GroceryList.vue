@@ -366,6 +366,7 @@ export default {
 				)
 
 				await this.loadItems(this.listId)
+				this.newItemId = -1;
 				this.newItemName = ''
 				this.newItemQuantity = ''
 				this.newItemCategory = null
@@ -373,6 +374,8 @@ export default {
 				console.error(e)
 				showError(t('grocerylist', 'Could not add item'))
 			}
+
+			this.showDeleteButton = false
 			this.updating = false
 		},
 		async deleteItem() {
@@ -382,6 +385,7 @@ export default {
 				await axios.delete(generateUrl('/apps/grocerylist/api/item/' + this.newItemId))
 
 				await this.loadItems(this.listId)
+				this.newItemId = -1
 				this.newItemName = ''
 				this.newItemQuantity = ''
 				this.newItemCategory = null
