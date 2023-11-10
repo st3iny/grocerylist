@@ -8,22 +8,21 @@
 
 			<div class="grocery-list__item-form">
 				<input v-model="newItemQuantity"
+					class="grocery-list__item-form__quantity"
 					placeholder="Quantity…"
-					:disabled="updating"
-					style="width: 20%">
+					:disabled="updating">
 				<input v-model="newItemName"
+					class="grocery-list__item-form__name"
 					placeholder="Item…"
 					:disabled="updating"
-					style="width: 30%"
 					@keyup.enter="onSaveItem()"
 					@input="toggleSaveButton()">
-				<NcSelect id="dropdown"
-					v-model="newItemCategory"
+				<NcSelect v-model="newItemCategory"
+					class="grocery-list__item-form__category"
 					:options="allCategories"
 					label="name"
 					:value="object"
 					:close-on-outside-click="true"
-					style="width: 20%"
 					@updateOption="updateNewItemCategory" />
 				<NcButton :disabled="!canSave"
 					style="display:inline-block;"
@@ -429,10 +428,28 @@ h1 {
 		display: flex;
 		align-items: center;
 		gap: var(--default-grid-baseline);
+		flex-wrap: wrap;
 
 		> input {
 			height: 47.2px !important;
 			margin: 0;
+		}
+
+		&__quantity {
+			width: 50px;
+			min-width: 5rem;
+			flex: 1 auto;
+		}
+
+		&__name {
+			width: 200px;
+			flex: 1 auto;
+		}
+
+		&__category {
+			width: 250px;
+			min-width: unset !important;
+			flex: 1 auto;
 		}
 	}
 
