@@ -63,10 +63,11 @@
 						<NcCheckboxRadioSwitch :checked="item.checked === true"
 							style="display:inline-block;"
 							@update:checked="checkItem(item)" />
-						<span @click="editItem(item)">
-							<span v-if="item.quantity !== ''">
+						<span class="grocery-list__item-list__item__desc"
+							@click="editItem(item)">
+							<template v-if="item.quantity">
 								{{ item.quantity }}
-							</span>
+							</template>
 							{{ item.name }}
 						</span>
 					</li>
@@ -431,7 +432,7 @@ h1 {
 		flex-wrap: wrap;
 
 		> input {
-			height: 47.2px !important;
+			height: 44px !important;
 			margin: 0;
 		}
 
@@ -457,6 +458,14 @@ h1 {
 		&__item {
 			display: flex;
 			align-items: center;
+
+			&__desc {
+				display: flex;
+				align-items: center;
+				flex: 1 auto;
+				cursor: pointer;
+				min-height: 44px;
+			}
 		}
 	}
 }
