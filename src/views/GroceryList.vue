@@ -60,9 +60,9 @@
 								<AlarmSnooze :size="20" />
 							</template>
 						</NcButton>
-						<NcCheckboxRadioSwitch :checked="item.checked === true"
-							style="display:inline-block;"
-							@update:checked="checkItem(item)" />
+						<input type="checkbox"
+							:checked="item.checked === true"
+							@input="checkItem(item)">
 						<span class="grocery-list__item-list__item__desc"
 							@click="editItem(item)">
 							<template v-if="item.quantity">
@@ -458,6 +458,13 @@ h1 {
 		&__item {
 			display: flex;
 			align-items: center;
+
+			input[type="checkbox"] {
+				cursor: pointer;
+				margin: 0 10px 0 0;
+				width: 18px;
+				height: 18px;
+			}
 
 			&__desc {
 				display: flex;
