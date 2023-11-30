@@ -34,7 +34,6 @@
 				</NcButton>
 				<NcButton v-if="showDeleteButton"
 					id="deleteButton"
-					:disabled="!canSave"
 					style="display:inline-block;"
 					@click="deleteItem()">
 					<template #icon>
