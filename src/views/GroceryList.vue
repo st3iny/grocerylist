@@ -118,7 +118,6 @@ export default {
 			items: null,
 			itemsAll: null,
 			updating: false,
-			canSave: true,
 			category: '',
 			newCategoryId: -1,
 			loading: false,
@@ -167,6 +166,9 @@ export default {
 				}
 			})
 		},
+		canSave() {
+			return this.newItemName.trim() !== ''
+		},
 	},
 	watch: {
 		listId: {
@@ -183,11 +185,6 @@ export default {
 	},
 	methods: {
 		toggleSaveButton() {
-			if (this.newItemName !== '') {
-				this.canSave = true
-			} else {
-				this.canSave = false
-			}
 		},
 		toggleVisibility() {
 			this.groceryList.showOnlyUnchecked = !this.groceryList.showOnlyUnchecked ? 1 : 0
